@@ -1,1 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 10px;
+            padding: 0;
+        }
+
+        .app-header {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .app-header h1 {
+            color: #000;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .app-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        .input-panel {
+            flex: 1;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 15px;
+        }
+
+        .input-field {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field label {
+            width: 200px;
+            font-size: 12px;
+            color: #000;
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .input-field input {
+            width: 120px;
+            padding: 2px 4px;
+            border: 1px solid #ccc;
+            background-color: #ffff99;
+            font-size: 12px;
+        }
+
+        .information-window {
+            flex: 1;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 15px;
+        }
+
+        .information-window h3 {
+            text-align: center;
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #e0e0e0;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .days-costs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .days-section, .costs-section {
+            flex: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            font-weight: bold;
+            background-color: #d0d0d0;
+            padding: 3px;
+            border: 1px solid #ccc;
+            font-size: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 2px;
+        }
+
+        .info-label {
+            width: 150px;
+            font-size: 12px;
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+        }
+
+        .info-value {
+            width: 100px;
+            font-size: 12px;
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            background-color: #e0f0ff;
+            text-align: right;
+        }
+
+        .financial-row {
+            display: flex;
+            margin-bottom: 2px;
+        }
+
+        .financial-label {
+            width: 120px;
+            font-size: 12px;
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+        }
+
+        .financial-value {
+            width: 100px;
+            font-size: 12px;
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            text-align: right;
+        }
+
+        .profitability-row {
+            display: flex;
+            margin-bottom: 2px;
+        }
+
+        .profitability-label {
+            width: 120px;
+            font-size: 12px;
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            background-color: #90EE90;
+            font-weight: bold;
+        }
+
+        .profitability-value {
+            width: 100px;
+            font-size: 12px;
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            background-color: #90EE90;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .bottom-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-header">
+        <h1>VOYAGE CALCULATION EXCEL</h1>
+    </div>
+
+    <div class="app-main">
+        <!-- Input Panel -->
+        <div class="input-panel">
+            <div class="input-field">
+                <label>VESSEL NAME:</label>
+                <input type="text" id="vesselName" value="MV YUCATAN" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>LOADING PORT:</label>
+                <input type="text" id="loadingPort" value="BARTIN" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>DISCH. PORT:</label>
+                <input type="text" id="dischargingPort" value="CHERNOMORSK" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>LOAD PORT PDA:</label>
+                <input type="number" id="dwtPDA" value="15500" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>DISCHARGE PORT PDA:</label>
+                <input type="number" id="lwtPDA" value="7124" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>PORT FACILITY IF ANY:</label>
+                <input type="number" id="portFacilityIfAny" value="2500" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>TOTAL CARGO:</label>
+                <input type="number" id="totalCargo" value="2950" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>COMMISSION RATE:</label>
+                <input type="number" step="0.01" id="commissionRate" value="3.75" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>FREIGHT RATE:</label>
+                <input type="number" step="0.01" id="freightRate" value="25.4238" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>DISTANCE:</label>
+                <input type="number" id="distance" value="300" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>SPEED:</label>
+                <input type="number" id="speed" value="9" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>LOAD RATE:</label>
+                <input type="number" id="laycanRate" value="986" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>DISCHARGE RATE:</label>
+                <input type="number" id="demurrageRate" value="980" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>AVERAGE PRICE OF MGO:</label>
+                <input type="number" id="averagePriceMGO" value="840" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>EST. ANCHORAGE DAYS:</label>
+                <input type="number" id="estimatedAnchorageDays" value="4" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>MGO CONS SAILING:</label>
+                <input type="number" step="0.01" id="mgoConsSailing" value="3" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>MGO CONS ANCH:</label>
+                <input type="number" step="0.01" id="mgoConsAnchoring" value="0.25" oninput="calculate()" onchange="calculate()">
+            </div>
+            <div class="input-field">
+                <label>ESTIMATED R. COST:</label>
+                <input type="number" id="estimatedRCost" value="1750" oninput="calculate()" onchange="calculate()">
+            </div>
+        </div>
+
+        <!-- Information Window -->
+        <div class="information-window">
+            <h3>INFORMATION WINDOW</h3>
+            
+            <div class="days-costs-container">
+                <div class="days-section">
+                    <div class="section-header">DAYS</div>
+                    <div class="info-row">
+                        <div class="info-label">TOTAL SAILING DAYS:</div>
+                        <div class="info-value" id="totalSailingDays">1.388889</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">TOTAL PORT DAYS:</div>
+                        <div class="info-value" id="totalPortDays">6.00208</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">TOTAL ANCH DAYS:</div>
+                        <div class="info-value" id="totalAnchorDays">4</div>
+                    </div>
+                </div>
+
+                <div class="costs-section">
+                    <div class="section-header">COSTS</div>
+                    <div class="info-row">
+                        <div class="info-label">TOTAL MGO CONS:</div>
+                        <div class="info-value" id="totalMGOCons">5600.439</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">BROKER COMM:</div>
+                        <div class="info-value" id="brokerComm">3750.0105</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">CANAL / TRANSIT:</div>
+                        <div class="info-value" id="canalTransit">0</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">R. COST:</div>
+                        <div class="info-value" id="rCost">19934.214</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row" style="margin-bottom: 15px;">
+                <div class="info-label" style="width: 200px; font-weight: bold;">TOTAL COST EXCEPT R.COST:</div>
+                <div class="info-value" style="background-color: #87CEEB;" id="totalCostExceptRCost">34474.45</div>
+            </div>
+
+            <div class="financial-results">
+                <div class="financial-row">
+                    <div class="financial-label">FREIGHT:</div>
+                    <div class="financial-value" style="background-color: #87CEEB;" id="freight">75000.21</div>
+                </div>
+                <div class="financial-row">
+                    <div class="financial-label">DEMURRAGE:</div>
+                    <div class="financial-value" style="background-color: #FFFF99;" id="demurrage">0</div>
+                </div>
+                <div class="financial-row">
+                    <div class="financial-label">DESPATCH:</div>
+                    <div class="financial-value" style="background-color: #FFFF99;" id="despatch">0</div>
+                </div>
+                <div class="financial-row">
+                    <div class="financial-label">GROSS PROFIT:</div>
+                    <div class="financial-value" style="background-color: #87CEEB;" id="grossProfit">40525.7605</div>
+                </div>
+                <div class="financial-row">
+                    <div class="financial-label">GROSS DAILY PROFIT:</div>
+                    <div class="financial-value" style="background-color: #87CEEB;" id="grossDailyProfit">6584.17573</div>
+                </div>
+            </div>
+
+            <div class="profitability-metrics">
+                <div class="profitability-row">
+                    <div class="profitability-label">TCE</div>
+                    <div class="profitability-value" id="tce">3557.70642</div>
+                </div>
+                <div class="profitability-row">
+                    <div class="profitability-label">TCE-R.COST</div>
+                    <div class="profitability-value" id="tceRCost">1807.70642</div>
+                </div>
+                <div class="profitability-row">
+                    <div class="profitability-label">VOYAGE:</div>
+                    <div class="profitability-value" id="voyage">20591.5466</div>
+                </div>
+                <div class="profitability-row">
+                    <div class="profitability-label">MONTHLY PROFIT:</div>
+                    <div class="profitability-value" id="monthlyProfit">54231.1927</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-note">
+        ONLY FILL YELLOW COLORED CELLS.
+    </div>
+
+    <script>
+        function calculate() {
+            console.log('Calculating...'); // Debug message
+            // Get input values
+            const distance = parseFloat(document.getElementById('distance').value) || 0;
+            const speed = parseFloat(document.getElementById('speed').value) || 0;
+            const portFacilityIfAny = parseFloat(document.getElementById('portFacilityIfAny').value) || 0;
+            const estimatedAnchorageDays = parseFloat(document.getElementById('estimatedAnchorageDays').value) || 0;
+            const mgoConsSailing = parseFloat(document.getElementById('mgoConsSailing').value) || 0;
+            const mgoConsAnchoring = parseFloat(document.getElementById('mgoConsAnchoring').value) || 0;
+            const averagePriceMGO = parseFloat(document.getElementById('averagePriceMGO').value) || 0;
+            const totalCargo = parseFloat(document.getElementById('totalCargo').value) || 0;
+            const freightRate = parseFloat(document.getElementById('freightRate').value) || 0;
+            const commissionRate = parseFloat(document.getElementById('commissionRate').value) || 0;
+            const estimatedRCost = parseFloat(document.getElementById('estimatedRCost').value) || 0;
+            const dwtPDA = parseFloat(document.getElementById('dwtPDA').value) || 0;
+            const lwtPDA = parseFloat(document.getElementById('lwtPDA').value) || 0;
+            const loadRate = parseFloat(document.getElementById('laycanRate').value) || 0;
+            const dischargeRate = parseFloat(document.getElementById('demurrageRate').value) || 0;
+
+            // Calculate sailing days
+            const totalSailingDays = speed > 0 ? distance / speed / 24 : 0;
+            
+            // Calculate port days
+            // Formula: (Total Cargo / Load Rate) + (Total Cargo / Discharge Rate)
+            const totalPortDays = (totalCargo / loadRate) + (totalCargo / dischargeRate);
+            const totalAnchorDays = estimatedAnchorageDays;
+            const totalVoyageDays = totalSailingDays + totalPortDays + totalAnchorDays;
+
+            // Calculate MGO consumption cost
+            // Formula: (Sailing Days × MGO Price × MGO Cons Sailing) + (Port Days × MGO Price × MGO Cons Anch) + (Anchor Days × MGO Price × MGO Cons Anch)
+            const totalMGOCons = (totalSailingDays * averagePriceMGO * mgoConsSailing) + 
+                                 (totalPortDays * averagePriceMGO * mgoConsAnchoring) + 
+                                 (totalAnchorDays * averagePriceMGO * mgoConsAnchoring);
+            
+            // Calculate costs
+            const freight = totalCargo * freightRate;
+            const brokerComm = freight * (commissionRate + 1.25) / 100;
+            const canalTransit = 0;
+            const rCost = (totalSailingDays + totalPortDays + totalAnchorDays) * estimatedRCost;
+            const totalCostExceptRCost = totalMGOCons + brokerComm + canalTransit + dwtPDA + lwtPDA + portFacilityIfAny;
+            
+            // Calculate financial results
+            const demurrage = 0;
+            const despatch = 0;
+            const grossProfit = freight - totalCostExceptRCost;
+            const grossDailyProfit = totalVoyageDays > 0 ? (freight + demurrage) / totalVoyageDays : 0;
+            
+            // Calculate profitability metrics
+            const tce = totalVoyageDays > 0 ? grossProfit / totalVoyageDays : 0;
+            const tceRCost = totalVoyageDays > 0 ? tce - (rCost / totalVoyageDays) : tce;
+            const voyage = tceRCost * totalVoyageDays;
+            const monthlyProfit = totalVoyageDays > 0 ? voyage * 30 / totalVoyageDays : 0;
+
+            // Update display
+            document.getElementById('totalSailingDays').textContent = totalSailingDays.toFixed(6);
+            document.getElementById('totalPortDays').textContent = totalPortDays.toFixed(6);
+            document.getElementById('totalAnchorDays').textContent = totalAnchorDays.toFixed(0);
+            document.getElementById('totalMGOCons').textContent = totalMGOCons.toFixed(3);
+            document.getElementById('brokerComm').textContent = brokerComm.toFixed(4);
+            document.getElementById('canalTransit').textContent = canalTransit.toFixed(0);
+            document.getElementById('rCost').textContent = rCost.toFixed(3);
+            document.getElementById('totalCostExceptRCost').textContent = totalCostExceptRCost.toFixed(2);
+            document.getElementById('freight').textContent = freight.toFixed(2);
+            document.getElementById('demurrage').textContent = demurrage.toFixed(0);
+            document.getElementById('despatch').textContent = despatch.toFixed(0);
+            document.getElementById('grossProfit').textContent = grossProfit.toFixed(4);
+            document.getElementById('grossDailyProfit').textContent = grossDailyProfit.toFixed(4);
+            document.getElementById('tce').textContent = tce.toFixed(4);
+            document.getElementById('tceRCost').textContent = tceRCost.toFixed(4);
+            document.getElementById('voyage').textContent = voyage.toFixed(4);
+            document.getElementById('monthlyProfit').textContent = monthlyProfit.toFixed(4);
+        }
+
+        // Calculate on page load
+        calculate();
+    </script>
+</body>
+</html>
+
 
